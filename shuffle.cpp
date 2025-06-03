@@ -4,6 +4,7 @@
 #include <sstream>
 #include <fstream>
 #include <vector>
+#include <algorithm>
 
 void shuffle(std::string playlistFilePath) {
     std::string line;
@@ -50,65 +51,37 @@ void shuffle(std::string playlistFilePath) {
     int min = 0;
     int max = songNames.size() - 1;
     num = 0;
-    bool cool;
-    for(int i = 0; i < songNames.size(); i++) {
-        cool = true;
-        int maxAttempts = 3;
-        int attempts = 0;
-
-        while (cool && attempts < maxAttempts) {
-            std::cout << attempts << std::endl;
-            std::cout << songNames[i] << std::endl;
-            std::random_device rd;
-            std::mt19937 gen(rd());
-            std::uniform_int_distribution<> distrib(min, max);
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distrib(min, max);
+    std::vector<std::string> NEWsongNames;
+    for(int i = 0; i < songNames.size(); i < 0) {
+        bool cool = false;
+        while(cool) {
             num = distrib(gen);
-            bool sameArtist = true;
-            bool sameAlbum = true;
-            if(artistNames[i] != artistNames[num]) {
-                sameArtist = false;
-            }
-            if(artistNames.size() > num + 1) {
-                if(artistNames[i] != artistNames[num + 1]) {
-                    sameArtist = false;
-                }
-            }
-            if(num > 0) {
-                if(artistNames[i] != artistNames[num - 1]) {
-                    sameArtist = false;
-                }
-            }
-            if(albumNames[i] != albumNames[num]) {
-                sameAlbum = false;
-            }
-            if(albumNames.size() > num + 1) {
-                if(albumNames[i] != albumNames[num + 1]) {
-                    sameAlbum = false;
-                }
-            }
-            if(num > 0) {
-                if(albumNames[i] != albumNames[num - 1]) {
-                    sameAlbum = false;
-                }
-            }
-            std::cout << sameArtist << " <- artist - album -> " << sameAlbum << std::endl;
-            if(sameArtist == false && sameAlbum == false) {
-                std::string temp = songNames[i];
-                std::string replacement = songNames[num];
-                songNames.erase(songNames.begin() + i);
-                songNames.insert(songNames.begin() + i, replacement);
-                songNames.insert(songNames.begin() + num, temp);
-                temp = artistNames[i];
-                replacement = artistNames[num];
-                artistNames.erase(artistNames.begin() + i);
-                artistNames.insert(artistNames.begin() + i, replacement);
-                artistNames.insert(artistNames.begin() + num, temp);
-                cool = false;
+            // put better code here
+        }
+        num = distrib(gen);
+        // I formely apologize for how bad this code right here it
+        if(songNames[num] != "") {
+            NEWsongNames.push_back(songNames[num]);
+            songNames.erase(songNames.begin() + num);
+        }
+        else {
+            num = distrib(gen);
+            if(songNames[num] != "") {
+            NEWsongNames.push_back(songNames[num]);
+            songNames.erase(songNames.begin() + num);
             }
             else {
-                continue;
+                num = distrib(gen);
+                NEWsongNames.push_back(songNames[num]);
+            songNames.erase(songNames.begin() + num);
             }
         }
+    }
+    for(int i = 0; i < NEWsongNames.size(); i+=1) {
+        std::cout << NEWsongNames[i] << std::endl;
     }
     file.close();
 }
