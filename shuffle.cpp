@@ -50,20 +50,46 @@ void shuffle(std::string playlistFilePath) {
     int min = 0;
     int max = songNames.size() - 1;
     num = 0;
-    bool cool = true;
+    bool cool;
     for(int i = 0; i < songNames.size(); i++) {
-        while(cool) {
+        cool = true;
+        int maxAttempts = 3;
+        int attempts = 0;
+
+        while (cool && attempts < maxAttempts) {
+            std::cout << attempts << std::endl;
+            std::cout << songNames[i] << std::endl;
             std::random_device rd;
             std::mt19937 gen(rd());
             std::uniform_int_distribution<> distrib(min, max);
             num = distrib(gen);
             bool sameArtist = true;
             bool sameAlbum = true;
-            if(artistNames[i] != artistNames[num] && artistNames[i] != artistNames[num - 1] && artistNames[i] != artistNames[num + 1]) {
+            if(artistNames[i] != artistNames[num]) {
                 sameArtist = false;
             }
-            if(albumNames[i] != albumNames[num] && albumNames[i] != albumNames[num - 1] && albumNames[i] != albumNames[num + 1]) {
+            if(artistNames.size() > num + 1) {
+                if(artistNames[i] != artistNames[num + 1]) {
+                    sameArtist = false;
+                }
+            }
+            if(num > 0) {
+                if(artistNames[i] != artistNames[num - 1]) {
+                    sameArtist = false;
+                }
+            }
+            if(albumNames[i] != albumNames[num]) {
                 sameAlbum = false;
+            }
+            if(albumNames.size() > num + 1) {
+                if(albumNames[i] != albumNames[num + 1]) {
+                    sameAlbum = false;
+                }
+            }
+            if(num > 0) {
+                if(albumNames[i] != albumNames[num - 1]) {
+                    sameAlbum = false;
+                }
             }
             std::cout << sameArtist << " <- artist - album -> " << sameAlbum << std::endl;
             if(sameArtist == false && sameAlbum == false) {
@@ -83,9 +109,6 @@ void shuffle(std::string playlistFilePath) {
                 continue;
             }
         }
-    }
-    for(int i = 0; i < songNames.size(); i++) {
-        std::cout << songNames[i] << " - " << artistNames[i] << std::endl;
     }
     file.close();
 }
