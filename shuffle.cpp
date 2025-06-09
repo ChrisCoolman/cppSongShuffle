@@ -53,7 +53,7 @@ void shuffle(std::string playlistFilePath)
     std::vector<int> NEWcharpos;
     bool loopVar = true;
     bool canTrade = true;
-    for (int i = 0; i < songNames.size(); i < 0)
+    for (int i = 0; i < songNames.size(); i++)
     {
         // variables that need to be reset each iteration
         loopVar = true;
@@ -67,54 +67,70 @@ void shuffle(std::string playlistFilePath)
             std::uniform_int_distribution<> distrib(0, songNames.size() - 1);
             num = distrib(gen);
             std::cout << "trying " << songNames[num] << std::endl;
-            for(int i = 0; i < artistNames.size(); i++) {
-                if(artistNames[i] == "&") {
+            for (int i = 0; i < artistNames.size(); i++)
+            {
+                if (artistNames[i] == "&")
+                {
                     charpos.push_back(i);
                 }
             }
-            for(int i = 0; i < charpos.size(); i++) {
-                if(i == 0) {
+            for (int i = 0; i < charpos.size(); i++)
+            {
+                if (i == 0)
+                {
                     // take from the start to the first feature
                     features.push_back(artistNames[num].substr(0, charpos[i]));
                 }
-                else if(i == charpos.size() - 1) {
+                else if (i == charpos.size() - 1)
+                {
                     // take from the current feature to the end
                     features.push_back(artistNames[num].substr(charpos[i], (charpos.size() - charpos[i])));
                 }
-                else {
+                else
+                {
                     // take from the last feature to this feature
                     features.push_back(artistNames[num].substr(charpos[i], charpos[i + 1]));
                 }
             }
-            for(int i = 0; i < NEWartistNames.size(); i++) {
-                if(NEWartistNames[i] == "&") {
+            for (int i = 0; i < NEWartistNames.size(); i++)
+            {
+                if (NEWartistNames[i] == "&")
+                {
                     NEWcharpos.push_back(i);
                 }
             }
-            for(int i = 0; i < NEWcharpos.size(); i++) {
-                if(i == 0) {
+            for (int i = 0; i < NEWcharpos.size(); i++)
+            {
+                if (i == 0)
+                {
                     // take from the start to the first feature
                     NEWfeatures.push_back(NEWartistNames[num].substr(0, NEWcharpos[i]));
                 }
-                else if(i == NEWcharpos.size() - 1) {
+                else if (i == NEWcharpos.size() - 1)
+                {
                     // take from the current feature to the end
                     NEWfeatures.push_back(NEWartistNames[num].substr(NEWcharpos[i], (NEWcharpos.size() - NEWcharpos[i])));
                 }
-                else {
+                else
+                {
                     // take from the last feature to this feature
                     NEWfeatures.push_back(NEWartistNames[num].substr(NEWcharpos[i], NEWcharpos[i + 1]));
                 }
             }
             if (NEWsongNames.size() > 0)
             {
-                for(int i = 0; i < features.size(); i++) {
-                    for(int k = 0; k < NEWfeatures.size(); k++) {
-                        if(NEWfeatures[k] == features[i]) {
+                for (int i = 0; i < features.size(); i++)
+                {
+                    for (int k = 0; k < NEWfeatures.size(); k++)
+                    {
+                        if (NEWfeatures[k] == features[i])
+                        {
                             canTrade = false;
                         }
                     }
                 }
-                if(artistNames[num - 1] == NEWartistNames[i]) {
+                if (artistNames[num - 1] == NEWartistNames[i])
+                {
                     canTrade = false;
                 }
                 if (canTrade)
