@@ -59,16 +59,12 @@ void shuffle(std::string playlistFilePath)
     std::vector<std::string> NEWsongNames;
     std::vector<std::string> NEWartistNames;
     std::vector<std::string> NEWalbumNames;
-    std::vector<std::string> features;
-    std::vector<int> charpos;
     bool loopVar = true;
     bool canTrade = true;
     for (int i = 0; i < songNames.size(); i < 0)
     {
         // variables that need to be reset each iteration
         loopVar = true;
-        features.clear();
-        charpos.clear();
         while (loopVar)
         {
             std::uniform_int_distribution<> distrib(0, songNames.size() - 1);
